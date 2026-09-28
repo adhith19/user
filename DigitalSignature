@@ -1,0 +1,19 @@
+from Crypto.PublicKey import RSA
+from Crypto.Signature import pkcs1_15
+from Crypto.Hash import SHA256
+
+text = input("Enter message: ")
+
+key = RSA.generate(2048)
+
+hash_value = SHA256.new(text.encode())
+
+signature = pkcs1_15.new(key).sign(hash_value)
+
+print("Digital Signature:", signature.hex())
+
+try:
+    pkcs1_15.new(key.publickey()).verify(hash_value, signature)
+    print("Signature is valid")
+except:
+    print("Signature is invalid")
