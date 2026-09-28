@@ -1,0 +1,9 @@
+from Crypto.Cipher import DES3
+from Crypto.Util.Padding import pad, unpad
+text = input("Enter text: ").encode()
+key = b"123456789012345678901234"  # 24-byte key
+cipher = DES3.new(key, DES3.MODE_ECB)
+encrypted = cipher.encrypt(pad(text, 8))
+print("Encrypted:", encrypted.hex())
+decrypted = unpad(cipher.decrypt(encrypted), 8)
+print("Decrypted:", decrypted.decode())
