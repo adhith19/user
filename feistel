@@ -1,0 +1,26 @@
+def feistel_encrypt(text, key):
+    left = text[:len(text)//2]
+    right = text[len(text)//2:]
+
+    for i in range(4):
+        new_right = ""
+        for a, b in zip(right, key):
+            new_right += chr(ord(a) ^ ord(b))
+
+        new_left = right
+        right = ""
+        
+        for a, b in zip(left, new_right):
+            right += chr(ord(a) ^ ord(b))
+
+        left = new_left
+
+    return left + right
+
+
+text = input("Enter text: ")
+key = input("Enter key: ")
+
+encrypted = feistel_encrypt(text, key)
+
+print("Encrypted:", encrypted)
