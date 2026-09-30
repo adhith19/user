@@ -1,4 +1,24 @@
 text = input("Enter text: ").upper()
 key = input("Enter key: ").upper()
-cipher = "".join(chr((ord(text[i])-65 + ord(key[i%len(key)])-65)%26+65) for i in range(len(text)))
-print("Ciphertext:",cipher)
+
+encrypted = ""
+for i in range(len(text)):
+    if text[i].isalpha():
+        t = ord(text[i]) - 65
+        k = ord(key[i % len(key)]) - 65
+        encrypted += chr((t + k) % 26 + 65)
+    else:
+        encrypted += text[i]
+
+print("Encrypted Text:", encrypted)
+
+decrypted = ""
+for i in range(len(encrypted)):
+    if encrypted[i].isalpha():
+        c = ord(encrypted[i]) - 65
+        k = ord(key[i % len(key)]) - 65
+        decrypted += chr((c - k) % 26 + 65)
+    else:
+        decrypted += encrypted[i]
+
+print("Decrypted Text:", decrypted)
