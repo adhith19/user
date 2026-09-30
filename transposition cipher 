@@ -1,4 +1,36 @@
-text = input("Enter text: ")
+text = input("Enter text: ").replace(" ", "").upper()
 key = int(input("Enter key (number): "))
-cipher = "".join(text[i::key] for i in range(key))
-print("Ciphertext:",cipher)
+
+# Encryption
+encrypted = ""
+for i in range(key):
+    encrypted += text[i::key]
+
+print("Encrypted Text:", encrypted)
+
+# Decryption
+n = len(encrypted)
+rows = (n + key - 1) // key
+cols = key
+
+# How many columns have extra char
+full_cols = n % cols
+if full_cols == 0:
+    full_cols = cols
+
+parts = []
+start = 0
+for i in range(cols):
+    size = rows if i < full_cols else rows - 1
+    if n % cols == 0:
+        size = rows
+    parts.append(encrypted[start:start+size])
+    start += size
+
+decrypted = ""
+for r in range(rows):
+    for c in range(cols):
+        if r < len(parts[c]):
+            decrypted += parts[c][r]
+
+print("Decrypted Text:", decrypted)
