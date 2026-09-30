@@ -1,0 +1,5 @@
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+key = "QWERTYUIOPASDFGHJKLZXCVBNM"
+text = input("Enter text: ").upper()
+cipher = "".join(key[alphabet.index(ch)] if ch in alphabet else ch for ch in text)
+print("Ciphertext:",cipher)
