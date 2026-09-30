@@ -1,12 +1,15 @@
 text = input("Enter text: ")
 shift = int(input("Enter shift: "))
+
 encrypted = ""
 for ch in text:
     if ch.isalpha():
         encrypted += chr((ord(ch.upper()) - 65 + shift) % 26 + 65)
     else:
         encrypted += ch
+
 print("Encrypted Text:", encrypted)
+
 decrypted = ""
 for ch in encrypted:
     if ch.isalpha():
