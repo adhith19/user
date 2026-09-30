@@ -1,9 +1,12 @@
 from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad, unpad
-text = input("Enter text: ").encode()
-key = b"1234567890123456"  # 16-byte key
+
+key = input("Enter key (16 bytes): ").encode()
+text = input("Enter text (16 bytes): ").encode()
+
 cipher = AES.new(key, AES.MODE_ECB)
-encrypted = cipher.encrypt(pad(text, 16))
-print("Encrypted:", encrypted.hex())
-decrypted = unpad(cipher.decrypt(encrypted), 16)
-print("Decrypted:", decrypted.decode())
+encrypted = cipher.encrypt(text)
+decrypted = cipher.decrypt(encrypted)
+
+print("Plaintext :", text)
+print("Encrypted :", encrypted.hex())
+print("Decrypted :", decrypted)
