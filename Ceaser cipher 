@@ -1,0 +1,5 @@
+text = input("Enter text: ").upper()
+shift = int(input("Enter shift: "))
+enc = "".join(chr((ord(ch)-65+shift)%26+65) 
+for ch in text)
+print("Ciphertext:",enc)
