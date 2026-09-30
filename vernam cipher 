@@ -1,4 +1,14 @@
 text = input("Enter text: ")
-key = input(f"Enter key same length: ")
-cipher = "".join(chr(ord(text[i]) ^ ord(key[i])) for i in range(len(text)))
-print("Ciphertext:",cipher)
+key = input(f"Enter key same length as text ({len(text)} chars): ")
+
+encrypted = ""
+for i in range(len(text)):
+    encrypted += chr(ord(text[i]) ^ ord(key[i]))
+
+print("Encrypted Text:", encrypted)
+
+decrypted = ""
+for i in range(len(encrypted)):
+    decrypted += chr(ord(encrypted[i]) ^ ord(key[i]))
+
+print("Decrypted Text:", decrypted)
