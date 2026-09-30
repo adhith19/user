@@ -1,0 +1,10 @@
+import numpy as np
+text = input("Enter text (even length, CAPS): ")
+key = np.array([[3,3],[2,5]])
+nums = [ord(c)-65 for c in text]
+cipher = ""
+for i in range(0,len(nums),2):
+    pair = np.array([[nums[i]],[nums[i+1]]])
+    result = np.dot(key,pair)%26
+    cipher+=chr(result[0][0]+65)+chr(result[1][0]+65)
+print("Ciphertext:",cipher)
