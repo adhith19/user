@@ -1,68 +1,56 @@
-def generate_matrix(key):
-    key = key.upper().replace("J", "I")
-    matrix_string = ""
-    for char in key:
-        if char.isalpha() and char not in matrix_string:
-            matrix_string += char
-    for char in "ABCDEFGHIKLMNOPQRSTUVWXYZ":
-        if char not in matrix_string:
-            matrix_string += char
-    matrix = []
-    for i in range(0, 25, 5):
-        matrix.append(list(matrix_string[i:i+5]))
-    return matrix
 
-def display_matrix(matrix):
-    print("\nPlayfair Matrix:")
-    for row in matrix:
-        print(" ".join(row))
+key = input("Enter key: ").upper()
+text = input("Enter plaintext: ").upper()
 
-def find_position(matrix, letter):
-    for i in range(5):
-        for j in range(5):
-            if matrix[i][j] == letter:
-                return i, j
+# Create key table
+table = ""
 
-def prepare_text(text):
-    text = text.upper().replace("J", "I")
-    text = ''.join([c for c in text if c.isalpha()])
-    prepared = ""
-    i = 0
-    while i < len(text):
-        if i + 1 < len(text):
-            if text[i] == text[i+1]:
-                prepared += text[i] + "X"
-                i += 1
-            else:
-                prepared += text[i] + text[i+1]
-                i += 2
-        else:
-            prepared += text[i] + "X"
-            i += 1
-    return prepared
+for ch in key + "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+    if ch == "J":
+        ch = "I"
+    if ch not in table:
+        table += ch
 
-def encrypt_pair(pair, matrix):
-    r1, c1 = find_position(matrix, pair[0])
-    r2, c2 = find_position(matrix, pair[1])
+matrix = [table[i:i+5] for i in range(0, 25, 5)]
+
+print("\nPlayfair Matrix:")
+for row in matrix:
+    print(row)
+
+# Replace J with I
+text = text.replace("J", "I")
+
+# Add X if length is odd
+if len(text) % 2 != 0:
+    text += "X"
+
+encrypted = ""
+
+for i in range(0, len(text), 2):
+    a = text[i]
+    b = text[i+1]
+
+    for r in range(5):
+        for c in range(5):
+            if matrix[r][c] == a:
+                r1, c1 = r, c
+            if matrix[r][c] == b:
+                r2, c2 = r, c
+
+    # Same row
     if r1 == r2:
-        return matrix[r1][(c1 + 1) % 5] + matrix[r2][(c2 + 1) % 5]
+        encrypted += matrix[r1][(c1 + 1) % 5]
+        encrypted += matrix[r2][(c2 + 1) % 5]
+
+    # Same column
     elif c1 == c2:
-        return matrix[(r1 + 1) % 5][c1] + matrix[(r2 + 1) % 5][c2]
+        encrypted += matrix[(r1 + 1) % 5][c1]
+        encrypted += matrix[(r2 + 1) % 5][c2]
+
+    # Rectangle rule
     else:
-        return matrix[r1][c2] + matrix[r2][c1]
+        encrypted += matrix[r1][c2]
+        encrypted += matrix[r2][c1]
 
-def playfair_encrypt(plaintext, key):
-    matrix = generate_matrix(key)
-    prepared_text = prepare_text(plaintext)
-    ciphertext = ""
-    for i in range(0, len(prepared_text), 2):
-        pair = prepared_text[i:i+2]
-        ciphertext += encrypt_pair(pair, matrix)
-    return matrix, prepared_text, ciphertext
-
-key = input("Enter key: ")
-plaintext = input("Enter plaintext: ")
-matrix, prepared, encrypted = playfair_encrypt(plaintext, key)
-display_matrix(matrix)
-print("\nPrepared plaintext:", prepared)
-print("Encrypted text:", encrypted)
+print("\nPlain Text :", text)
+print("Encrypted Text :", encrypted)
