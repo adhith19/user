@@ -1,11 +1,12 @@
 from Crypto.Cipher import DES
-from Crypto.Random import get_random_bytes
-text = input("Enter text: ").encode()
-key = b"12345678"
-while len(text) % 8 != 0:
-    text += b" "
+
+key = input("Enter 8-char key: ").encode().ljust(8, b'0')[:8]
+text = input("Enter 8-char text: ").encode().ljust(8, b'0')[:8]
+
 cipher = DES.new(key, DES.MODE_ECB)
 encrypted = cipher.encrypt(text)
-print("Encrypted:", encrypted.hex())
 decrypted = cipher.decrypt(encrypted)
-print("Decrypted:", decrypted.decode().strip())
+
+print("Plaintext :", text)
+print("Encrypted :", encrypted.hex())
+print("Decrypted :", decrypted)
