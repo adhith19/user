@@ -1,12 +1,23 @@
-
 p=3
 q=11
 n=p*q
 phi=(p-1)*(q-1)
 e=3
 d=7
-text=int(input("Enter message: "))
-encrypted=(text**e)%n
-decrypted=(encrypted**d)%n
-print("Encrypted:",encrypted)
-print("Decrypted:",decrypted)
+
+text=input("Enter text: ")
+
+enc_list=[]
+for ch in text:
+    m=ord(ch)
+    c=(m**e)%n
+    enc_list.append(c)
+
+print("Encrypted:",enc_list)
+
+dec_text=""
+for c in enc_list:
+    m=(c**d)%n
+    dec_text+=chr(m)
+
+print("Decrypted:",dec_text)
