@@ -1,4 +1,29 @@
-text = input("Enter text: ")
+text = input("Enter text: ").replace(" ", "")
 rails = int(input("Enter rails: "))
-cipher = "".join(text[i::rails] for i in range(rails))
-print("Ciphertext:",cipher)
+
+# Encryption
+encrypted = ""
+for i in range(rails):
+    encrypted += text[i::rails]
+
+print("Encrypted Text:", encrypted)
+
+# Decryption
+n = len(encrypted)
+k = n // rails
+extra = n % rails
+
+parts = []
+start = 0
+for i in range(rails):
+    size = k + (1 if i < extra else 0)
+    parts.append(encrypted[start:start+size])
+    start += size
+
+decrypted = ""
+for i in range(k + (1 if extra>0 else 0)):
+    for j in range(rails):
+        if i < len(parts[j]):
+            decrypted += parts[j][i]
+
+print("Decrypted Text:", decrypted)
